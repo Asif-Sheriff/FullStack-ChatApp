@@ -1,11 +1,24 @@
-export function ChatBox(){
-    return(
-        <div className="flex w-full items-end bg-blue-900">
-            <div className="flex w-full p-2 justify-center space-x-2 bg-indigo-950">
-                <input type="text" placeholder="say something" className=" w-full p-2" />
-                <button className="p-2 bg-blue-500 text-white">send</button>
+import { SendBox } from './SendBox';
+import { TextBox } from './TextBox';
+
+export function ChatBox({ onChange, value, onSend, textList }) {
+    return (
+        <div className="flex flex-col w-full items-end bg-blue-900">
+
+            <div className="flex justify-end w-full h-full p-2">
+                <ul className='flex flex-col items-end space-y-2'>
+
+                {textList.map((text) => {
+                    return (
+                        <li>
+                            <TextBox text={text} />
+                        </li>
+                    )
+                })}
+                </ul>
 
             </div>
+            <SendBox onChange={onChange} value={value} onSend={onSend} />
 
         </div>
     )
