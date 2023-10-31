@@ -1,4 +1,4 @@
-import express, {Router} from "express";
+import express, {Router, text} from "express";
 import cors from "cors";
 import { Server } from 'socket.io'
 import http from "http"
@@ -9,7 +9,7 @@ const router= Router();
 const  app =express();
 const port=3000;
 const server = http.createServer(app);
-const io = new Server(server);
+export const io = new Server(server);
 
 
 //Express.json is used for accessing the request body
@@ -26,7 +26,15 @@ io.on('connection',(socket)=>{
     socket.on('disconnect', () => {
       console.log('user disconnected');
     });
+
+    socket.on("send-text",(text)=>{
+      socket.broadcast.emit("pass-message",text);
+      // console.log(text);
+    })
+
 });
+
+
 
 connectDB();
 // connectContactsDB();

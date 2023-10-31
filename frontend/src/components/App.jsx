@@ -1,26 +1,36 @@
 import { useEffect, useState } from 'react'
 import { ChatBox } from './ChatBox'
 import { Contacts } from './Contacts'
-import { io } from 'socket.io-client';
-
+import { socket } from '../../sockets/handleSocket';
 
 
 function App() {
   const [text, setText] = useState("");
   const [textString, setTextString] = useState([]);
+  const [receivedText,setReceivedText]  = useState([]);
+  
 
   useEffect(()=>{
-    const socket = io('http://localhost:3000',{ transports : ['websocket'] });
-
+    socket
   },[]);
   
-  const receivedText = [
-    "Hello!",
-    "How's it going?",
-    "Any plans for today?",
-    "Good to see you!",
-    "Let's chat!",
-  ];
+  // useEffect(() => {
+    
+  // },[] );
+  
+  socket.on("pass-message", (text) => {
+    const timestamp = Date.now(); // Get the current timestamp
+    setReceivedText([...receivedText,{ date: timestamp, text: text }]);      
+  });  
+  
+  // const receivedText = [
+  //   "Hello!",
+  //   "How's it going?",
+  //   "Any plans for today?",
+  //   "Good to see you!",
+  //   "Let's chat!",
+  // ];
+  
 
 
   //This function set the text state when user types it
@@ -29,10 +39,11 @@ function App() {
     
   }
 
-  function onSend(text){
-    setTextString((prev)=>{
-      return([...prev,text]);
-    })   
+  function onSend(text) {
+    const timestamp = Date.now(); // Get the current timestamp
+    setTextString([...textString, { date: timestamp, text: text }]);
+    socket.emit("send-text", text);
+    setText("");
   }
   return (
     <>
