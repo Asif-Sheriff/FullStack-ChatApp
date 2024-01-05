@@ -50,34 +50,11 @@ export function ChatBox({ receivedText, onChange, value, onSend, textList }) {
     return (
         <div className="flex flex-col w-full items-end bg-blue-900">
 
-            <div className="flex justify-end w-full h-full p-2">
+            <div className="flex justify-end w-full h-full p-2 overflow-auto">
                 <ul className='flex flex-col w-full items-end space-y-2'>
 
                 {handleRendering()}
                 {renderedMessages}
-
-                {/* {renderedMessages.map((item) => {
-                    return (
-                        item
-                    )
-                })} */}
-
-                
-
-                {/* {textList.map((item) => {
-                    return (
-                        <li className="w-full">
-                            <SentTextBox text={item.text} />
-                        </li>
-                    )
-                })}
-                {receivedText.map((text) => {
-                    return (
-                        <li className="w-full">
-                            <ReceivedTextBox text={text} />
-                        </li>
-                    )
-                })} */}
                 </ul>
 
             </div>
